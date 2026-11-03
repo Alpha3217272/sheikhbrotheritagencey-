@@ -98,3 +98,69 @@ test('backend PDF sandbox policy is preserved',async()=>{
  const r=await proxy(req('/api/quotations/test/pdf'),async()=>new Response('pdf',{headers:{'content-type':'application/pdf','content-security-policy':"default-src 'none'; sandbox"}}));
  assert.equal(r.headers.get('content-security-policy'),"default-src 'none'; sandbox");
 });
+
+test('all four service routes recover from static routing 404s',async()=>{
+ for(const route of ['website-development','ai-creation','ai-automation','social-media-management']){
+  for(const suffix of ['', '/']){
+   let calls=0;
+   const r=await serve(req('/'+route+suffix),{next:async()=>new Response('missing',{status:404})},async upstream=>{calls++;assert.equal(new URL(upstream.url).pathname,'/'+route+suffix);return new Response('<h1>Service page</h1>',{headers:{'content-type':'text/html'}})});
+   assert.equal(r.status,200);assert.equal(calls,1);assert.match(await r.text(),/Service page/);
+  }
+ }
+});
+test('unknown routes remain 404 rather than serving an unrelated homepage',async()=>{
+ const r=await serve(req('/does-not-exist'),{next:async()=>new Response('missing',{status:404})},async()=>{throw new Error('must not fetch')});assert.equal(r.status,404);
+});
+
+// Regression: the previous global origin replacement shortened Flight text
+// records without updating their hex byte counts. Test the real exported pages.
+const flightChunks = html => [...html.matchAll(/\.rsc\.push\(("(?:[^"\\]|\\.)*")\)/g)].map(m=>JSON.parse(m[1]));
+function checkFlightFrames(chunks) {
+ const data=Buffer.from(chunks.join(''));let cursor=0,textRecords=0;
+ while(cursor<data.length){
+  const head=/^([0-9a-f]*):/.exec(data.subarray(cursor).toString());
+  if(!head)throw new Error('Invalid Flight record at '+cursor);
+  const start=cursor+head[0].length;
+  const length=/^T([0-9a-f]+),/.exec(data.subarray(start).toString());
+  if(length){cursor=start+length[0].length+parseInt(length[1],16);textRecords++;}
+  else {const end=data.indexOf(10,start);if(end<0)throw new Error('Truncated Flight record');cursor=end+1;}
+  if(cursor>data.length)throw new Error('Truncated Flight text');
+ }
+ return textRecords;
+}
+test('real homepage, all service pages and admin retain exact React bootstrap bytes',async()=>{
+ const {readFileSync}=await import('node:fs');
+ for(const page of ['index.html','website-development/index.html','ai-creation/index.html','ai-automation/index.html','social-media-management/index.html','admin/index.html']){
+  const source=readFileSync(new URL('../public/'+page,import.meta.url),'utf8');
+  const before=flightChunks(source);
+  assert.ok(before.length>0,page+' has a React payload');
+  checkFlightFrames(before);
+  for(const domain of [origin,'https://a.co','https://a-much-longer-custom-domain.example.com']){
+   const result=await serve(new Request(domain+'/'+page),{next:async()=>new Response(source,{headers:{'content-type':'text/html'}})});
+   const after=flightChunks(await result.text());
+   assert.deepEqual(after,before,page+' must preserve each payload chunk exactly');
+   assert.equal(checkFlightFrames(after),checkFlightFrames(before));
+   assert.equal(result.headers.get('netlify-cdn-cache-control'),'no-store');
+  }
+ }
+});
+test('regression fixture demonstrates why global domain replacement corrupts Flight',async()=>{
+ const {readFileSync}=await import('node:fs');
+ const source=readFileSync(new URL('../public/social-media-management/index.html',import.meta.url),'utf8');
+ assert.throws(()=>checkFlightFrames(flightChunks(source.replaceAll(BACKEND,origin))),/Flight/);
+});
+test('client navigation and prefetch receive unmodified Flight data, never static HTML',async()=>{
+ for(const route of ['/','/website-development','/ai-creation/','/ai-automation','/social-media-management/','/admin']){
+  for(const variant of [{suffix:'?_rsc=prefetch',headers:{}},{suffix:'',headers:{rsc:'1'}},{suffix:'',headers:{accept:'text/x-component'}}]){
+   const payload='0:'+JSON.stringify({url:BACKEND+'/path',text:'پاکستان'})+'\n';
+   const response=await serve(req(route+variant.suffix,{headers:variant.headers}),{next:async()=>{throw new Error('Must not serve HTML')}},async request=>{
+    assert.equal(new URL(request.url).search,variant.suffix);
+    for(const [key,value] of Object.entries(variant.headers))assert.equal(request.headers.get(key),value);
+    return new Response(payload,{headers:{'content-type':'text/x-component',vary:'RSC, Accept'}});
+   });
+   assert.equal(await response.text(),payload);
+   assert.equal(response.headers.get('content-type'),'text/x-component');
+   assert.equal(response.headers.get('netlify-cdn-cache-control'),'no-store');
+  }
+ }
+});

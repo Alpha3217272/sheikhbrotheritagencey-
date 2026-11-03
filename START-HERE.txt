@@ -1,3 +1,22 @@
+NOVEMBER 3 FIX — REACT PAGE LOADING
+
+Fixed Connection closed / This page could not load by preserving React bootstrap
+payloads byte-for-byte. Client navigation/prefetch requests now use the existing
+backend rather than receiving static HTML. All six pages validated; 22 checks pass.
+
+UPDATE YOUR EXISTING GITHUB REPOSITORY
+1. Extract this ZIP. Open Sheikh-Brother-IT-Agency-Netlify.
+2. Copy its contents into the existing cloned GitHub repository, replacing matching
+   files. Do not paste the outer folder or create another nested project folder.
+3. In GitHub Desktop commit the changes, then Push origin.
+4. Netlify should automatically build main with npm run build and publish dist.
+5. After Published, test each service page and navigation in a fresh browser tab.
+6. If testing with DevTools open, enable Disable cache and reload.
+
+Only the gateway, regression tests, ignore rules and these instructions changed.
+Do not upload database exports or passwords. The design/assets are unchanged.
+Live verification on your Netlify deployment still needs to be completed.
+
 SHEIKH BROTHER IT AGENCY — NETLIFY FRONTEND + EXISTING BACKEND
 
 CORRECTED PACKAGE: actual HTML pages, compiled JavaScript, CSS, images, icons
@@ -20,7 +39,7 @@ netlify.toml                            Netlify build and Edge routing settings
 
 FRONTEND AND BACKEND
 Netlify serves local HTML, JavaScript, CSS and committed media using context.next.
-Only /api/*, /media/* (live uploaded media) and the existing /studio alias go to
+/api/*, /media/* (live uploaded media), React navigation/prefetch and /studio go to
 the current Cloudflare/Sites backend. Its database, passwords, enquiries,
 reviews, hiring data and quotations remain there. Keep that backend published.
 This is a self-hosted frontend with a shared existing backend, not an independent
@@ -54,8 +73,11 @@ portal data, SEO origin rewriting and private live-media requests. Use Git or CL
 
 SEO
 Local sitemap.xml and robots.txt include the five public routes. The Edge
-Function rewrites their origin and server-rendered canonical/social URLs to the
-Netlify/custom domain. No blanket SPA rewrite or separate _redirects is needed.
+Function rewrites their origin and ordinary HTML metadata to the Netlify/custom
+domain. Framework bootstrap scripts are intentionally kept exact, including any
+canonical/social URLs embedded in that data; these retain the original backend
+origin. Do not globally replace origins in those scripts. Explicit _redirects
+for the known service/admin pages are included. No blanket SPA fallback is used.
 
 UPDATES
 Portal content is fetched from the existing API after page hydration. Code or

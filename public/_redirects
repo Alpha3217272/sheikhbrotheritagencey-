@@ -1,0 +1,11 @@
+# Explicit page rewrites; never rewrite API or assets to the homepage.
+/website-development /website-development/index.html 200!
+/website-development/ /website-development/index.html 200!
+/ai-creation /ai-creation/index.html 200!
+/ai-creation/ /ai-creation/index.html 200!
+/ai-automation /ai-automation/index.html 200!
+/ai-automation/ /ai-automation/index.html 200!
+/social-media-management /social-media-management/index.html 200!
+/social-media-management/ /social-media-management/index.html 200!
+/admin /admin/index.html 200!
+/admin/ /admin/index.html 200!
