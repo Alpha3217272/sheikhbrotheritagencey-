@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  edge_functions = "netlify/edge-functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # This project ships compiled static assets plus our own Edge Function.
+  # Do not run Netlify's Next.js adapter on this non-Next build.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+[[edge_functions]]
+  function = "agency-gateway"
+  path = "/*"

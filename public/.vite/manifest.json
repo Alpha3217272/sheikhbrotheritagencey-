@@ -1,0 +1,107 @@
+{
+  "_framework-JGc2HF7T.js": {
+    "file": "_next/static/chunks/framework-JGc2HF7T.js",
+    "name": "framework",
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js"
+    ]
+  },
+  "_public-ui-BJ_1Jxbw.js": {
+    "file": "_next/static/chunks/public-ui-BJ_1Jxbw.js",
+    "name": "public-ui",
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js"
+    ]
+  },
+  "_rolldown-runtime-QTnfLwEv.js": {
+    "file": "_next/static/chunks/rolldown-runtime-QTnfLwEv.js",
+    "name": "rolldown-runtime"
+  },
+  "app/admin/page.tsx": {
+    "file": "_next/static/chunks/page-CFtIv708.js",
+    "name": "page",
+    "src": "app/admin/page.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js",
+      "virtual:vinext-app-browser-entry",
+      "_public-ui-BJ_1Jxbw.js"
+    ],
+    "dynamicImports": [
+      "lib/admin-exports.ts"
+    ],
+    "css": [
+      "_next/static/css/page.BYLeeCuz.css"
+    ]
+  },
+  "components/agency-website.tsx": {
+    "file": "_next/static/chunks/agency-website-CcPLSFI-.js",
+    "name": "agency-website",
+    "src": "components/agency-website.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js",
+      "_public-ui-BJ_1Jxbw.js"
+    ],
+    "css": [
+      "_next/static/css/agency-website.Jz__fgtO.css"
+    ]
+  },
+  "lib/admin-exports.ts": {
+    "file": "_next/static/chunks/admin-exports-BzVjGFEL.js",
+    "name": "admin-exports",
+    "src": "lib/admin-exports.ts",
+    "isDynamicEntry": true
+  },
+  "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
+    "file": "_next/static/chunks/app-route-prefetch-policy-CD-sT57_.js",
+    "name": "app-route-prefetch-policy",
+    "src": "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "virtual:vinext-app-browser-entry"
+    ]
+  },
+  "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/layout-segment-context.js": {
+    "file": "_next/static/chunks/layout-segment-context-Bif2GOeZ.js",
+    "name": "layout-segment-context",
+    "src": "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/layout-segment-context.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js",
+      "virtual:vinext-app-browser-entry"
+    ]
+  },
+  "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/streamed-icons.js": {
+    "file": "_next/static/chunks/streamed-icons-BfkstFTP.js",
+    "name": "streamed-icons",
+    "src": "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/streamed-icons.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js"
+    ]
+  },
+  "virtual:vinext-app-browser-entry": {
+    "file": "_next/static/chunks/index-C3zYzjp_.js",
+    "name": "index",
+    "src": "virtual:vinext-app-browser-entry",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_framework-JGc2HF7T.js"
+    ],
+    "dynamicImports": [
+      "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
+      "virtual:vinext-app-browser-entry",
+      "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/streamed-icons.js",
+      "app/admin/page.tsx",
+      "components/agency-website.tsx",
+      "node_modules/.pnpm/vinext@1.0.0-beta.5_@vitejs+plugin-react@6.0.2_vite@8.1.6_@types+node@22.19.19_esbuild@_860eb2ad45866cabbe3ea5aec8a0ae46/node_modules/vinext/dist/shims/layout-segment-context.js"
+    ]
+  }
+}

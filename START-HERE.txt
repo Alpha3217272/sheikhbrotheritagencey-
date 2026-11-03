@@ -1,0 +1,97 @@
+SHEIKH BROTHER IT AGENCY — NETLIFY FRONTEND + EXISTING BACKEND
+
+CORRECTED PACKAGE: actual HTML pages, compiled JavaScript, CSS, images, icons
+and bundled videos are INCLUDED under public/. This replaces the earlier
+proxy-only version of this same ZIP.
+
+WHERE THE FILES ARE
+public/index.html                        Homepage
+public/website-development/index.html    Website service
+public/ai-creation/index.html            AI video service
+public/ai-automation/index.html          Automation service
+public/social-media-management/index.html Social media service
+public/admin/index.html                  Public password-lock/loading shell only
+public/_next/static/chunks/*.js          Real minified JavaScript bundles
+public/_next/static/css/*.css         Real minified CSS bundles (see file list)
+public/brand/, public/portfolio-assets/, public/service-photos/ and *.mp4
+                                        Logos, images and bundled videos
+netlify/edge-functions/agency-gateway.js  Backend connector and same-origin checks
+netlify.toml                            Netlify build and Edge routing settings
+
+FRONTEND AND BACKEND
+Netlify serves local HTML, JavaScript, CSS and committed media using context.next.
+Only /api/*, /media/* (live uploaded media) and the existing /studio alias go to
+the current Cloudflare/Sites backend. Its database, passwords, enquiries,
+reviews, hiring data and quotations remain there. Keep that backend published.
+This is a self-hosted frontend with a shared existing backend, not an independent
+migration of the database or server. No Supabase or new database is required.
+
+DEPLOY USING GITHUB
+1. Extract this ZIP.
+2. Upload ALL CONTENTS of Sheikh-Brother-IT-Agency-Netlify to a GitHub repository.
+   package.json and netlify.toml must be at the repository root.
+3. Netlify: Add new project > Import an existing project > GitHub > select repo.
+4. Base directory: empty if files are at root.
+   Build command: npm run build
+   Publish directory: dist
+   Node version: 22
+5. Deploy. The build runs tests and copies the complete public/ frontend into
+   dist/. Netlify must deploy the agency-gateway Edge Function as configured.
+6. Open the new HTTPS .netlify.app URL and check all pages, forms and /admin.
+   Log into the portal using your existing password; sign in again on the new
+   domain because browser sessions do not transfer between origins.
+7. Register push notifications again on each device on the new domain.
+
+CLI ALTERNATIVE
+In this folder, with Node.js 22 or newer installed:
+  npm run build
+  npx netlify-cli login
+  npx netlify-cli deploy --build --prod
+
+Do not deploy only dist/ using a static-only drag-and-drop workflow. It can show
+the public pages but does not deploy the Edge Function needed for API/forms,
+portal data, SEO origin rewriting and private live-media requests. Use Git or CLI.
+
+SEO
+Local sitemap.xml and robots.txt include the five public routes. The Edge
+Function rewrites their origin and server-rendered canonical/social URLs to the
+Netlify/custom domain. No blanket SPA rewrite or separate _redirects is needed.
+
+UPDATES
+Portal content is fetched from the existing API after page hydration. Code or
+layout changes to the original application require a new matching frontend
+export and a Netlify redeploy. Do not mix HTML from one build with hashed assets
+from another. Keep this package's JS/CSS filenames unchanged.
+
+SECURITY / LIMITATIONS
+No private database records, passwords, password hashes, live sessions, server
+API secrets or push private keys are included. The static admin file is only
+its anonymous UI shell; private data still requires a valid password session
+at the backend. The Edge Function preserves private no-store headers and cookie
+security attributes and rejects cross-site writes before translating Origin.
+Original owner/ChatGPT setup flows redirect to the managed backend. Existing
+password login remains available through Netlify.
+Backend IP rate limits see Netlify egress IPs, potentially shared by visitors;
+those limits remain enforced and can throttle visitors together at higher load.
+The backend must stay online for live data, submissions, uploaded media and
+notifications. Traffic and execution limits remain subject to both providers.
+No successful LIVE NETLIFY deployment is claimed: isolated tests and build/file
+checks were completed; run a smoke check after your Netlify deployment.
+
+OFFICIAL DOCUMENTATION
+https://docs.netlify.com/build/edge-functions/get-started/
+https://docs.netlify.com/build/edge-functions/api/
+
+IF @netlify/plugin-nextjs FAILS
+This package does not build a Next.js server and has no Next.js dependency.
+1. Make sure the selected repository/root is THIS Netlify package, not the older
+   full source/All-Files project containing Next.js and Cloudflare dependencies.
+2. Use npm run build and publish dist (not .next).
+3. In Netlify's installed Build Plugins, disable/remove @netlify/plugin-nextjs
+   if it was manually installed on the site. Keep our agency-gateway Edge Function.
+4. The supplied netlify.toml sets NETLIFY_NEXT_PLUGIN_SKIP=true for builds.
+   If your site's configuration overrides it, add the same build environment
+   variable in Netlify: NETLIFY_NEXT_PLUGIN_SKIP = true.
+5. Commit the updated files, then retry with a cleared build cache.
+6. If it still fails, retain the complete deploy log and the first actual error
+   lines; the generic plugin-failed banner alone cannot identify every cause.

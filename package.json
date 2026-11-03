@@ -1,0 +1,13 @@
+{
+  "name": "sheikh-brother-it-agency-netlify",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/gateway.test.mjs",
+    "build": "node --test tests/gateway.test.mjs && node scripts/build.mjs"
+  }
+}

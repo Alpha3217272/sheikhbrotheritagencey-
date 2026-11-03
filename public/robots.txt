@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /studio
+Disallow: /api/
+
+Sitemap: https://sheikh-brother-it-agency.furqanfarooq923.chatgpt.site/sitemap.xml
